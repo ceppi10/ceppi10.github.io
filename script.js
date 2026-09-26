@@ -25,7 +25,7 @@ const playerData = [
     ["Diego Maradona", "maradona.jpg"],
     ["Ángel Di María", "dimaria.jpg"],
     ["Sergio Agüero", "aguero.jpg"],
-    ["Lautaro Martínez", "martinez.jpg"],
+    ["Lautaro Martínez", "lautaro.jpg"],
     ["Julián Álvarez", "alvarez.jpg"],
     ["Luís Figo", "figo.jpg"],
     ["Bruno Fernandes", "fernandes.jpg"],
@@ -190,6 +190,59 @@ const gameOver =
 const gameBoard =
     document.getElementById("gameBoard");
 
+
+const hangmanGame =
+    document.getElementById("hangmanGame");
+
+const hangmanBackButton =
+    document.getElementById("hangmanBackButton");
+
+const hangmanLevelText =
+    document.getElementById("hangmanLevel");
+
+const hangmanScoreText =
+    document.getElementById("hangmanScore");
+
+const hangmanLivesText =
+    document.getElementById("hangmanLives");
+
+const hangmanMessage =
+    document.getElementById("hangmanMessage");
+
+const hangmanPhoto =
+    document.getElementById("hangmanPhoto");
+
+const hangmanWord =
+    document.getElementById("hangmanWord");
+
+const hangmanKeyboard =
+    document.getElementById("hangmanKeyboard");
+
+
+const blurGame =
+    document.getElementById("blurGame");
+
+const blurBackButton =
+    document.getElementById("blurBackButton");
+
+const blurLevelText =
+    document.getElementById("blurLevel");
+
+const blurScoreText =
+    document.getElementById("blurScore");
+
+const blurLivesText =
+    document.getElementById("blurLives");
+
+const blurMessage =
+    document.getElementById("blurMessage");
+
+const blurPhoto =
+    document.getElementById("blurPhoto");
+
+const blurOptions =
+    document.getElementById("blurOptions");
+
 const levelText =
     document.getElementById("level");
 
@@ -258,6 +311,12 @@ const survivalRecord =
 
 const memoryRecord =
     document.getElementById("memoryRecord");
+
+const hangmanRecord =
+    document.getElementById("hangmanRecord");
+
+const blurRecord =
+    document.getElementById("blurRecord");
 
 
 
@@ -332,6 +391,20 @@ let records = {
         Number(
             localStorage.getItem(
                 "footballMemoryMemory"
+            )
+        ) || 1,
+
+    hangman:
+        Number(
+            localStorage.getItem(
+                "footballMemoryHangman"
+            )
+        ) || 1,
+
+    blur:
+        Number(
+            localStorage.getItem(
+                "footballMemoryBlur"
             )
         ) || 1
 
@@ -433,7 +506,7 @@ const modeData = {
         title: "Modalità Memoria",
 
         description:
-            "Non devi solamente trovare le coppie. Devi anche ricordare quali calciatori il gioco ti chiede di trovare.",
+            "Non devi solamente trovare le coppie. Devi trovarle nell'ordine esatto richiesto, oppure la partita finisce subito.",
 
         rules: [
 
@@ -441,11 +514,65 @@ const modeData = {
 
             "All'inizio devi trovare Messi e Ronaldo.",
 
-            "Devi trovare gli obiettivi nell'ordine richiesto.",
+            "Devi trovarli nell'ordine esatto mostrato.",
+
+            "Se trovi una coppia diversa da quella richiesta, perdi subito.",
 
             "Gli obiettivi aumentano con i livelli.",
 
             "Completa tutti gli obiettivi per continuare."
+
+        ]
+
+    },
+
+
+    hangman: {
+
+        icon: "🔤",
+
+        title: "Modalità Impiccato",
+
+        description:
+            "Indovina il nome di un calciatore lettera per lettera, prima di esaurire le vite.",
+
+        rules: [
+
+            "Ti viene mostrato il nome nascosto di un calciatore.",
+
+            "Scegli una lettera alla volta dalla tastiera.",
+
+            "Se la lettera è giusta, viene rivelata ovunque compaia.",
+
+            "Se sbagli, perdi una vita.",
+
+            "Hai 5 vite: indovina il nome prima di esaurirle."
+
+        ]
+
+    },
+
+
+    blur: {
+
+        icon: "🌫️",
+
+        title: "Modalità Sfocato",
+
+        description:
+            "Riconosci il calciatore dalla sua foto, sempre più sfocata a ogni livello superato.",
+
+        rules: [
+
+            "Ti viene mostrata una foto sfocata di un calciatore.",
+
+            "Scegli il nome giusto tra le 4 opzioni proposte.",
+
+            "Se sbagli, la foto si sfoca ancora di più e perdi una vita.",
+
+            "Se indovini, guadagni punti in base a quanto era sfocata.",
+
+            "Hai 5 vite: la partita termina quando le esaurisci."
 
         ]
 
@@ -569,7 +696,24 @@ modalPlay.addEventListener(
             "hidden"
         );
 
-        startGame();
+
+        if (mode === "hangman") {
+
+            startHangmanGame();
+
+        }
+
+        else if (mode === "blur") {
+
+            startBlurGame();
+
+        }
+
+        else {
+
+            startGame();
+
+        }
 
     }
 
@@ -2024,6 +2168,39 @@ function handleMatch() {
 
         }
 
+        else {
+
+            message.textContent =
+
+                "❌ Coppia sbagliata! Dovevi trovare " +
+
+                (currentTarget ?
+                    currentTarget.name :
+                    "un altro calciatore") +
+
+                ".";
+
+
+            lockBoard = true;
+
+
+            setTimeout(
+
+                function() {
+
+                    endGame();
+
+                },
+
+                1100
+
+            );
+
+
+            return;
+
+        }
+
     }
 
 
@@ -2356,7 +2533,23 @@ retryButton.addEventListener(
         );
 
 
-        startGame();
+        if (mode === "hangman") {
+
+            startHangmanGame();
+
+        }
+
+        else if (mode === "blur") {
+
+            startBlurGame();
+
+        }
+
+        else {
+
+            startGame();
+
+        }
 
     }
 
@@ -2396,6 +2589,52 @@ backButton.addEventListener(
 );
 
 
+hangmanBackButton.addEventListener(
+
+    "click",
+
+    function() {
+
+        clearAllTimers();
+
+
+        hangmanGame.classList.add(
+            "hidden"
+        );
+
+
+        home.classList.remove(
+            "hidden"
+        );
+
+    }
+
+);
+
+
+blurBackButton.addEventListener(
+
+    "click",
+
+    function() {
+
+        clearAllTimers();
+
+
+        blurGame.classList.add(
+            "hidden"
+        );
+
+
+        home.classList.remove(
+            "hidden"
+        );
+
+    }
+
+);
+
+
 menuButton.addEventListener(
 
     "click",
@@ -2415,6 +2654,16 @@ menuButton.addEventListener(
         );
 
 
+        hangmanGame.classList.add(
+            "hidden"
+        );
+
+
+        blurGame.classList.add(
+            "hidden"
+        );
+
+
         home.classList.remove(
             "hidden"
         );
@@ -2422,6 +2671,885 @@ menuButton.addEventListener(
     }
 
 );
+
+
+
+/* ==========================================
+   FUNZIONI CONDIVISE — NORMALIZZAZIONE LETTERE
+========================================== */
+
+function normalizedChars(text) {
+
+    return text.split("").map(
+
+        function(char) {
+
+            return char
+
+                .normalize("NFD")
+
+                .replace(
+                    /[\u0300-\u036f]/g,
+                    ""
+                )
+
+                .toUpperCase();
+
+        }
+
+    );
+
+}
+
+
+
+/* ==========================================
+   MODALITÀ IMPICCATO — VARIABILI
+========================================== */
+
+let hangmanPlayer = null;
+
+let hangmanName = "";
+
+let hangmanRevealed = [];
+
+let hangmanGuessedLetters = [];
+
+let hangmanWrongThisWord = 0;
+
+let hangmanLocked = false;
+
+
+
+/* ==========================================
+   IMPICCATO — INIZIA PARTITA
+========================================== */
+
+function startHangmanGame() {
+
+    clearAllTimers();
+
+
+    home.classList.add(
+        "hidden"
+    );
+
+    hangmanGame.classList.remove(
+        "hidden"
+    );
+
+    gameOver.classList.add(
+        "hidden"
+    );
+
+
+    level = 1;
+
+    score = 0;
+
+    lives = 5;
+
+
+    startHangmanLevel();
+
+}
+
+
+
+/* ==========================================
+   IMPICCATO — INIZIA LIVELLO
+========================================== */
+
+function startHangmanLevel() {
+
+    hangmanPlayer =
+        getRandomPlayers(1)[0];
+
+    hangmanName =
+        hangmanPlayer.name;
+
+
+    hangmanRevealed =
+
+        hangmanName.split("").map(
+
+            function(char) {
+
+                return !/[A-Za-zÀ-ÿ]/.test(
+                    char
+                );
+
+            }
+
+        );
+
+
+    hangmanGuessedLetters = [];
+
+    hangmanWrongThisWord = 0;
+
+    hangmanLocked = false;
+
+
+    hangmanPhoto.src = "";
+
+    hangmanPhoto.style.display =
+        "";
+
+    hangmanPhoto.closest(
+        ".hangman-photo-frame"
+    ).classList.remove(
+        "revealed"
+    );
+
+
+    hangmanLevelText.textContent =
+        level;
+
+    hangmanScoreText.textContent =
+        score;
+
+    hangmanLivesText.textContent =
+        lives;
+
+    hangmanMessage.textContent =
+        "";
+
+
+    renderHangmanWord();
+
+    renderHangmanKeyboard();
+
+}
+
+
+
+/* ==========================================
+   IMPICCATO — DISEGNA PAROLA
+========================================== */
+
+function renderHangmanWord() {
+
+    let html = "";
+
+
+    for (
+
+        let i = 0;
+
+        i < hangmanName.length;
+
+        i++
+
+    ) {
+
+        let char =
+            hangmanName[i];
+
+
+        if (!/[A-Za-zÀ-ÿ]/.test(char)) {
+
+            html +=
+
+                '<span class="hangman-letter hangman-fixed">' +
+                char +
+                '</span>';
+
+        }
+
+        else if (hangmanRevealed[i]) {
+
+            html +=
+
+                '<span class="hangman-letter hangman-revealed">' +
+                char +
+                '</span>';
+
+        }
+
+        else {
+
+            html +=
+                '<span class="hangman-letter hangman-hidden">_</span>';
+
+        }
+
+    }
+
+
+    hangmanWord.innerHTML = html;
+
+}
+
+
+
+/* ==========================================
+   IMPICCATO — DISEGNA TASTIERA
+========================================== */
+
+function renderHangmanKeyboard() {
+
+    let letters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+    let normalizedName =
+        normalizedChars(hangmanName);
+
+
+    hangmanKeyboard.innerHTML = "";
+
+
+    letters.forEach(
+
+        function(letter) {
+
+            let key =
+                document.createElement(
+                    "button"
+                );
+
+            key.textContent = letter;
+
+            key.classList.add(
+                "hangman-key"
+            );
+
+
+            if (
+
+                hangmanGuessedLetters.includes(
+                    letter
+                )
+
+            ) {
+
+                let isCorrect =
+                    normalizedName.includes(
+                        letter
+                    );
+
+                key.classList.add(
+
+                    isCorrect ?
+                        "correct" :
+                        "wrong"
+
+                );
+
+                key.disabled = true;
+
+            }
+
+
+            key.addEventListener(
+
+                "click",
+
+                function() {
+
+                    guessHangmanLetter(
+                        letter
+                    );
+
+                }
+
+            );
+
+
+            hangmanKeyboard.appendChild(
+                key
+            );
+
+        }
+
+    );
+
+}
+
+
+
+/* ==========================================
+   IMPICCATO — INDOVINA LETTERA
+========================================== */
+
+function guessHangmanLetter(letter) {
+
+    if (hangmanLocked) {
+
+        return;
+
+    }
+
+
+    if (
+
+        hangmanGuessedLetters.includes(
+            letter
+        )
+
+    ) {
+
+        return;
+
+    }
+
+
+    hangmanGuessedLetters.push(
+        letter
+    );
+
+
+    let normalizedName =
+        normalizedChars(hangmanName);
+
+    let found = false;
+
+
+    for (
+
+        let i = 0;
+
+        i < normalizedName.length;
+
+        i++
+
+    ) {
+
+        if (normalizedName[i] === letter) {
+
+            hangmanRevealed[i] = true;
+
+            found = true;
+
+        }
+
+    }
+
+
+    renderHangmanWord();
+
+    renderHangmanKeyboard();
+
+
+    if (found) {
+
+        hangmanMessage.textContent =
+            "✓ Lettera giusta!";
+
+
+        checkHangmanWin();
+
+    }
+
+    else {
+
+        hangmanWrongThisWord++;
+
+        lives--;
+
+        hangmanLivesText.textContent =
+            lives;
+
+        hangmanMessage.textContent =
+            "✕ Lettera sbagliata!";
+
+
+        if (lives <= 0) {
+
+            hangmanLocked = true;
+
+            revealHangmanAnswer();
+
+
+            setTimeout(
+
+                function() {
+
+                    endGame();
+
+                },
+
+                1300
+
+            );
+
+        }
+
+    }
+
+}
+
+
+
+/* ==========================================
+   IMPICCATO — CONTROLLA VITTORIA
+========================================== */
+
+function checkHangmanWin() {
+
+    let solved =
+
+        hangmanRevealed.every(
+
+            function(value) {
+
+                return value;
+
+            }
+
+        );
+
+
+    if (!solved) {
+
+        return;
+
+    }
+
+
+    hangmanLocked = true;
+
+
+    let bonus =
+
+        Math.max(
+            0,
+            5 - hangmanWrongThisWord
+        ) * 40;
+
+    let points =
+
+        (100 * level) +
+        bonus;
+
+
+    score += points;
+
+    hangmanScoreText.textContent =
+        score;
+
+    hangmanMessage.textContent =
+
+        "🔥 Corretto! +" +
+        points;
+
+
+    revealHangmanAnswer();
+
+
+    if (
+
+        level + 1 >
+        records.hangman
+
+    ) {
+
+        records.hangman =
+            level + 1;
+
+        localStorage.setItem(
+            "footballMemoryHangman",
+            records.hangman
+        );
+
+        updateRecordDisplay();
+
+    }
+
+
+    setTimeout(
+
+        function() {
+
+            level++;
+
+            startHangmanLevel();
+
+        },
+
+        1500
+
+    );
+
+}
+
+
+
+/* ==========================================
+   IMPICCATO — RIVELA RISPOSTA
+========================================== */
+
+function revealHangmanAnswer() {
+
+    hangmanPhoto.src =
+        hangmanPlayer.image;
+
+    hangmanPhoto.style.display =
+        "block";
+
+    hangmanPhoto.onerror =
+
+        function() {
+
+            hangmanPhoto.style.display =
+                "none";
+
+        };
+
+    hangmanPhoto.closest(
+        ".hangman-photo-frame"
+    ).classList.add(
+        "revealed"
+    );
+
+
+    hangmanRevealed =
+
+        hangmanRevealed.map(
+
+            function() {
+
+                return true;
+
+            }
+
+        );
+
+
+    renderHangmanWord();
+
+}
+
+
+
+/* ==========================================
+   MODALITÀ SFOCATO — VARIABILI
+========================================== */
+
+let blurCurrentPlayer = null;
+
+let blurWrongThisPhoto = 0;
+
+let blurAmountPx = 22;
+
+let blurLocked = false;
+
+const BLUR_START = 22;
+
+const BLUR_STEP = 5;
+
+
+
+/* ==========================================
+   SFOCATO — INIZIA PARTITA
+========================================== */
+
+function startBlurGame() {
+
+    clearAllTimers();
+
+
+    home.classList.add(
+        "hidden"
+    );
+
+    blurGame.classList.remove(
+        "hidden"
+    );
+
+    gameOver.classList.add(
+        "hidden"
+    );
+
+
+    level = 1;
+
+    score = 0;
+
+    lives = 5;
+
+
+    startBlurLevel();
+
+}
+
+
+
+/* ==========================================
+   SFOCATO — INIZIA LIVELLO
+========================================== */
+
+function startBlurLevel() {
+
+    blurCurrentPlayer =
+        getRandomPlayers(1)[0];
+
+    blurWrongThisPhoto = 0;
+
+    blurAmountPx = BLUR_START;
+
+    blurLocked = false;
+
+
+    blurPhoto.src =
+        blurCurrentPlayer.image;
+
+    blurPhoto.style.display =
+        "block";
+
+    blurPhoto.onerror =
+
+        function() {
+
+            blurPhoto.style.display =
+                "none";
+
+        };
+
+    blurPhoto.style.filter =
+
+        "blur(" +
+        blurAmountPx +
+        "px)";
+
+
+    blurLevelText.textContent =
+        level;
+
+    blurScoreText.textContent =
+        score;
+
+    blurLivesText.textContent =
+        lives;
+
+    blurMessage.textContent =
+        "";
+
+
+    renderBlurOptions();
+
+}
+
+
+
+/* ==========================================
+   SFOCATO — DISEGNA OPZIONI
+========================================== */
+
+function renderBlurOptions() {
+
+    let decoys =
+
+        getRandomPlayers(
+
+            3,
+
+            [blurCurrentPlayer.name]
+
+        );
+
+    let options =
+        [blurCurrentPlayer].concat(
+            decoys
+        );
+
+    shuffle(options);
+
+
+    blurOptions.innerHTML = "";
+
+
+    options.forEach(
+
+        function(player) {
+
+            let button =
+                document.createElement(
+                    "button"
+                );
+
+            button.classList.add(
+                "blur-option"
+            );
+
+            button.textContent =
+                player.name;
+
+
+            button.addEventListener(
+
+                "click",
+
+                function() {
+
+                    handleBlurGuess(
+                        player.name,
+                        button
+                    );
+
+                }
+
+            );
+
+
+            blurOptions.appendChild(
+                button
+            );
+
+        }
+
+    );
+
+}
+
+
+
+/* ==========================================
+   SFOCATO — GESTISCI RISPOSTA
+========================================== */
+
+function handleBlurGuess(name, buttonEl) {
+
+    if (blurLocked) {
+
+        return;
+
+    }
+
+
+    if (name === blurCurrentPlayer.name) {
+
+        blurLocked = true;
+
+        buttonEl.classList.add(
+            "correct"
+        );
+
+
+        let clarityBonus =
+
+            Math.round(
+
+                (blurAmountPx / BLUR_START) *
+                150
+
+            );
+
+        let points =
+
+            (100 * level) +
+            clarityBonus;
+
+
+        score += points;
+
+        blurScoreText.textContent =
+            score;
+
+        blurMessage.textContent =
+
+            "🔥 Esatto! +" +
+            points;
+
+
+        blurPhoto.style.filter =
+            "blur(0px)";
+
+
+        if (
+
+            level + 1 >
+            records.blur
+
+        ) {
+
+            records.blur =
+                level + 1;
+
+            localStorage.setItem(
+                "footballMemoryBlur",
+                records.blur
+            );
+
+            updateRecordDisplay();
+
+        }
+
+
+        setTimeout(
+
+            function() {
+
+                level++;
+
+                startBlurLevel();
+
+            },
+
+            1400
+
+        );
+
+    }
+
+    else {
+
+        buttonEl.classList.add(
+            "wrong"
+        );
+
+        buttonEl.disabled = true;
+
+
+        lives--;
+
+        blurLivesText.textContent =
+            lives;
+
+
+        blurAmountPx =
+
+            Math.max(
+                0,
+                blurAmountPx - BLUR_STEP
+            );
+
+        blurPhoto.style.filter =
+
+            "blur(" +
+            blurAmountPx +
+            "px)";
+
+
+        blurMessage.textContent =
+            "✕ Sbagliato! La foto si è schiarita un po'.";
+
+
+        if (lives <= 0) {
+
+            blurLocked = true;
+
+            blurPhoto.style.filter =
+                "blur(0px)";
+
+
+            setTimeout(
+
+                function() {
+
+                    endGame();
+
+                },
+
+                1300
+
+            );
+
+        }
+
+    }
+
+}
 
 
 
@@ -2460,6 +3588,14 @@ resetButton.addEventListener(
                 "footballMemoryMemory"
             );
 
+            localStorage.removeItem(
+                "footballMemoryHangman"
+            );
+
+            localStorage.removeItem(
+                "footballMemoryBlur"
+            );
+
 
             records = {
 
@@ -2469,7 +3605,11 @@ resetButton.addEventListener(
 
                 survival: 1,
 
-                memory: 1
+                memory: 1,
+
+                hangman: 1,
+
+                blur: 1
 
             };
 
@@ -2504,6 +3644,14 @@ function updateRecordDisplay() {
 
     memoryRecord.textContent =
         records.memory;
+
+
+    hangmanRecord.textContent =
+        records.hangman;
+
+
+    blurRecord.textContent =
+        records.blur;
 
 }
 
