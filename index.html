@@ -123,6 +123,30 @@
 
                 </div>
 
+
+                <div class="record-item">
+
+                    <span>🔤</span>
+
+                    <div>
+                        <small>IMPICCATO</small>
+                        <strong id="hangmanRecord">1</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="record-item">
+
+                    <span>🌫️</span>
+
+                    <div>
+                        <small>SFOCATO</small>
+                        <strong id="blurRecord">1</strong>
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
@@ -295,6 +319,86 @@
 
                     <span>
                         PRECISIONE
+                    </span>
+
+                    <span>
+                        →
+                    </span>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="mode-card"
+                data-mode="hangman"
+            >
+
+                <div class="mode-card-top">
+
+                    <div class="mode-icon">
+                        🔤
+                    </div>
+
+                    <span>
+                        05
+                    </span>
+
+                </div>
+
+                <h3>
+                    Impiccato
+                </h3>
+
+                <p>
+                    Indovina il nome del calciatore lettera per lettera.
+                </p>
+
+                <div class="mode-card-bottom">
+
+                    <span>
+                        INTUITO
+                    </span>
+
+                    <span>
+                        →
+                    </span>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="mode-card"
+                data-mode="blur"
+            >
+
+                <div class="mode-card-top">
+
+                    <div class="mode-icon">
+                        🌫️
+                    </div>
+
+                    <span>
+                        06
+                    </span>
+
+                </div>
+
+                <h3>
+                    Sfocato
+                </h3>
+
+                <p>
+                    Riconosci il calciatore dalla foto sempre più sfocata.
+                </p>
+
+                <div class="mode-card-bottom">
+
+                    <span>
+                        OSSERVAZIONE
                     </span>
 
                     <span>
@@ -586,6 +690,268 @@
     <!-- TAVOLO -->
 
     <div id="gameBoard"></div>
+
+
+</main>
+
+
+
+<!-- =========================
+     GIOCO — IMPICCATO
+========================= -->
+
+<main
+    id="hangmanGame"
+    class="hidden"
+>
+
+
+    <div class="game-topbar">
+
+
+        <button
+            id="hangmanBackButton"
+            class="back-button"
+        >
+            ← Menu
+        </button>
+
+
+        <div class="current-mode">
+
+            <span>
+                🔤
+            </span>
+
+            <div>
+
+                <small>
+                    MODALITÀ
+                </small>
+
+                <strong>
+                    Impiccato
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="game-level">
+
+            <small>
+                LIVELLO
+            </small>
+
+            <strong id="hangmanLevel">
+                1
+            </strong>
+
+        </div>
+
+
+        <div class="game-score">
+
+            <small>
+                PUNTEGGIO
+            </small>
+
+            <strong id="hangmanScore">
+                0
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="game-info hangman-info">
+
+
+        <div class="game-stat">
+
+            <span>
+                ❤️
+            </span>
+
+            <div>
+
+                <small>
+                    VITE
+                </small>
+
+                <strong id="hangmanLives">
+                    5
+                </strong>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    </div>
+
+
+
+    <div id="hangmanMessage"></div>
+
+
+
+    <div class="hangman-photo-frame">
+
+        <img
+            id="hangmanPhoto"
+            src=""
+            alt="Calciatore da indovinare"
+        >
+
+    </div>
+
+
+
+    <div
+        id="hangmanWord"
+        class="hangman-word"
+    ></div>
+
+
+
+    <div
+        id="hangmanKeyboard"
+        class="hangman-keyboard"
+    ></div>
+
+
+</main>
+
+
+
+<!-- =========================
+     GIOCO — SFOCATO
+========================= -->
+
+<main
+    id="blurGame"
+    class="hidden"
+>
+
+
+    <div class="game-topbar">
+
+
+        <button
+            id="blurBackButton"
+            class="back-button"
+        >
+            ← Menu
+        </button>
+
+
+        <div class="current-mode">
+
+            <span>
+                🌫️
+            </span>
+
+            <div>
+
+                <small>
+                    MODALITÀ
+                </small>
+
+                <strong>
+                    Sfocato
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="game-level">
+
+            <small>
+                LIVELLO
+            </small>
+
+            <strong id="blurLevel">
+                1
+            </strong>
+
+        </div>
+
+
+        <div class="game-score">
+
+            <small>
+                PUNTEGGIO
+            </small>
+
+            <strong id="blurScore">
+                0
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="game-info blur-info">
+
+
+        <div class="game-stat">
+
+            <span>
+                ❤️
+            </span>
+
+            <div>
+
+                <small>
+                    VITE
+                </small>
+
+                <strong id="blurLives">
+                    5
+                </strong>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div id="blurMessage"></div>
+
+
+
+    <div class="blur-photo-frame">
+
+        <img
+            id="blurPhoto"
+            src=""
+            alt="Calciatore da indovinare"
+        >
+
+    </div>
+
+
+
+    <div
+        id="blurOptions"
+        class="blur-options"
+    ></div>
 
 
 </main>
