@@ -334,7 +334,7 @@ h1, h2, h3 {
     display: grid;
 
     grid-template-columns:
-        repeat(4, 1fr);
+        repeat(6, 1fr);
 
 }
 
@@ -464,7 +464,7 @@ h1, h2, h3 {
     display: grid;
 
     grid-template-columns:
-        repeat(4, 1fr);
+        repeat(3, 1fr);
 
     gap: 18px;
 
@@ -2435,14 +2435,14 @@ h1, h2, h3 {
     }
 
 
-    .record-item:nth-child(2) {
+    .record-item:nth-child(even) {
 
         border-right: none;
 
     }
 
 
-    .record-item:nth-child(3) {
+    .record-item:nth-child(odd) {
 
         border-right: 1.5px solid var(--cream-line);
 
@@ -3101,6 +3101,449 @@ h1, h2, h3 {
     .champion-card p {
 
         font-size: 11.5px;
+
+    }
+
+}
+
+
+
+/* =========================
+   IMPICCATO
+========================= */
+
+.hangman-info {
+
+    grid-template-columns: 1fr;
+
+    max-width: 220px;
+
+    margin-left: auto;
+
+    margin-right: auto;
+
+}
+
+
+.hangman-photo-frame {
+
+    width: 160px;
+
+    height: 160px;
+
+    margin: 20px auto;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            var(--gold-bright),
+            var(--gold) 60%,
+            var(--gold-deep) 100%
+        );
+
+    border: 3px solid var(--pitch-black);
+
+    box-shadow:
+        0 0 0 4px var(--gold-line),
+        0 14px 34px rgba(0, 0, 0, 0.4);
+
+    font-size: 60px;
+
+}
+
+
+.hangman-photo-frame::before {
+
+    content: "⚽";
+
+}
+
+
+.hangman-photo-frame.revealed {
+
+    background: var(--ink);
+
+}
+
+
+.hangman-photo-frame.revealed::before {
+
+    content: "";
+
+}
+
+
+.hangman-photo-frame img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    object-position: center 15%;
+
+    display: none;
+
+}
+
+
+.hangman-photo-frame.revealed img {
+
+    display: block;
+
+}
+
+
+.hangman-word {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    margin: 24px auto;
+
+    max-width: 700px;
+
+}
+
+
+.hangman-letter {
+
+    min-width: 30px;
+
+    text-align: center;
+
+    font-family: 'Anton', sans-serif;
+
+    font-size: 26px;
+
+    letter-spacing: 1px;
+
+    padding-bottom: 4px;
+
+    border-bottom: 3px solid var(--gold-line);
+
+    color: var(--white);
+
+}
+
+
+.hangman-letter.hangman-fixed {
+
+    border-bottom-color: transparent;
+
+    color: var(--muted);
+
+}
+
+
+.hangman-letter.hangman-revealed {
+
+    border-bottom-color: var(--gold);
+
+    color: var(--gold-bright);
+
+}
+
+
+.hangman-keyboard {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    max-width: 620px;
+
+    margin: 0 auto 40px;
+
+}
+
+
+.hangman-key {
+
+    width: 40px;
+
+    height: 44px;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--cream),
+            var(--cream-dark)
+        );
+
+    color: var(--ink);
+
+    font-family: 'Anton', sans-serif;
+
+    font-size: 16px;
+
+    border: 1.5px solid var(--gold-line);
+
+    transition: 0.15s;
+
+}
+
+
+.hangman-key:hover:not(:disabled) {
+
+    transform: translateY(-2px);
+
+    border-color: var(--gold);
+
+}
+
+
+.hangman-key.correct {
+
+    background: var(--gold);
+
+    color: var(--ink);
+
+    opacity: 0.55;
+
+}
+
+
+.hangman-key.wrong {
+
+    background: var(--pitch-black);
+
+    color: var(--muted);
+
+    opacity: 0.55;
+
+}
+
+
+#hangmanMessage {
+
+    min-height: 26px;
+
+    text-align: center;
+
+    color: var(--gold-bright);
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    padding: 5px;
+
+}
+
+
+
+/* =========================
+   SFOCATO
+========================= */
+
+.blur-info {
+
+    grid-template-columns: 1fr;
+
+    max-width: 220px;
+
+    margin-left: auto;
+
+    margin-right: auto;
+
+}
+
+
+.blur-photo-frame {
+
+    width: 230px;
+
+    height: 230px;
+
+    margin: 22px auto;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    border: 3px solid var(--gold);
+
+    box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.45);
+
+    background: var(--ink);
+
+}
+
+
+.blur-photo-frame img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    object-position: center 15%;
+
+    display: block;
+
+    transition: filter 0.4s ease;
+
+}
+
+
+.blur-options {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 12px;
+
+    max-width: 560px;
+
+    margin: 0 auto 40px;
+
+}
+
+
+.blur-option {
+
+    padding: 16px;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--cream),
+            var(--cream-dark)
+        );
+
+    color: var(--ink);
+
+    font-weight: 800;
+
+    font-size: 14px;
+
+    border: 1.5px solid var(--gold-line);
+
+    transition: 0.2s;
+
+}
+
+
+.blur-option:hover:not(:disabled) {
+
+    transform: translateY(-2px);
+
+    border-color: var(--gold);
+
+}
+
+
+.blur-option.correct {
+
+    background: var(--gold);
+
+    box-shadow: 0 0 0 3px var(--gold-bright);
+
+}
+
+
+.blur-option.wrong {
+
+    background: var(--pitch-black);
+
+    color: var(--muted);
+
+    opacity: 0.6;
+
+}
+
+
+#blurMessage {
+
+    min-height: 26px;
+
+    text-align: center;
+
+    color: var(--gold-bright);
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    padding: 5px;
+
+}
+
+
+
+@media (max-width: 650px) {
+
+    .hangman-photo-frame {
+
+        width: 120px;
+
+        height: 120px;
+
+        font-size: 44px;
+
+    }
+
+
+    .hangman-letter {
+
+        font-size: 20px;
+
+        min-width: 22px;
+
+    }
+
+
+    .hangman-key {
+
+        width: 32px;
+
+        height: 38px;
+
+        font-size: 13px;
+
+    }
+
+
+    .blur-photo-frame {
+
+        width: 180px;
+
+        height: 180px;
+
+    }
+
+
+    .blur-options {
+
+        grid-template-columns: 1fr;
 
     }
 
